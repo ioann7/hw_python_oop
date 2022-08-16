@@ -59,7 +59,8 @@ class Training:
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
-        pass
+        return InfoMessage('Training', self.duration, self.get_distance(),
+                           self.get_mean_speed(), self.get_spent_calories())
 
     def get_duration_in_minutes(self) -> float:
         """Получить время тренировки в минутах."""
@@ -76,7 +77,7 @@ class Running(Training):
         dur_in_min = self.get_duration_in_minutes()
         left_mul = (coeff_1 * self.get_mean_speed() - coeff_2)
         right_mul = self.weight / self.M_IN_KM * dur_in_min
-        return left_mul * right_mul
+        return round(left_mul * right_mul, 6)
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -100,7 +101,7 @@ class SportsWalking(Training):
         dur_in_min = self.get_duration_in_minutes()
         internal_mul = (self.get_mean_speed()**2 // self.height)
         external_mul = (coeff_1 * self.weight + internal_mul * coeff_2)
-        return external_mul * dur_in_min
+        return round(external_mul * dur_in_min, 6)
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -123,13 +124,14 @@ class Swimming(Training):
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
         right_mul = self.count_pool / self.M_IN_KM / self.duration
-        return self.length_pool * right_mul
+        return round(self.length_pool * right_mul, 6)
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         coeff_1 = 1.1
         coeff_2 = 2
-        return (self.get_mean_speed() + coeff_1) * coeff_2 * self.weight
+        first_mul = (self.get_mean_speed() + coeff_1)
+        return round(first_mul * coeff_2 * self.weight, 6)
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
