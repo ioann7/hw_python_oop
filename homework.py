@@ -1,4 +1,8 @@
-from typing import Union
+"""
+Модуль фитнес-трекера, который обрабатывает
+данные для трех видов тренировок:
+для бега, спортивной ходьбы и плавания.
+"""
 
 
 class InfoMessage:
@@ -18,6 +22,7 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
+        """Получить информационное сообщение."""
         return (f'Тип тренировки: {self.training_type}; '
                 f'Длительность: {self.duration:.3f} ч.; '
                 f'Дистанция: {self.distance:.3f} км; '
@@ -28,8 +33,8 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
 
-    LEN_STEP = 0.65
-    M_IN_KM = 1000
+    LEN_STEP: float = 0.65
+    M_IN_KM: int = 1000
 
     def __init__(self,
                  action: int,
@@ -57,6 +62,7 @@ class Training:
         pass
 
     def get_duration_in_minutes(self) -> float:
+        """Получить время тренировки в минутах."""
         return self.duration * 60
 
 
@@ -64,6 +70,7 @@ class Running(Training):
     """Тренировка: бег."""
 
     def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
         coeff_1 = 18
         coeff_2 = 20
         dur_in_min = self.get_duration_in_minutes()
@@ -72,6 +79,7 @@ class Running(Training):
         return left_mul * right_mul
 
     def show_training_info(self) -> InfoMessage:
+        """Вернуть информационное сообщение о выполненной тренировке."""
         return InfoMessage(
             'Running', self.duration, self.get_distance(),
             self.get_mean_speed(), self.get_spent_calories())
@@ -86,6 +94,7 @@ class SportsWalking(Training):
         self.height = float(height)
 
     def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
         coeff_1 = 0.035
         coeff_2 = 0.029
         dur_in_min = self.get_duration_in_minutes()
@@ -94,6 +103,7 @@ class SportsWalking(Training):
         return external_mul * dur_in_min
 
     def show_training_info(self) -> InfoMessage:
+        """Вернуть информационное сообщение о выполненной тренировке."""
         return InfoMessage(
             'SportsWalking', self.duration, self.get_distance(),
             self.get_mean_speed(), self.get_spent_calories())
@@ -111,15 +121,18 @@ class Swimming(Training):
         self.count_pool = float(count_pool)
 
     def get_mean_speed(self) -> float:
+        """Получить среднюю скорость движения."""
         right_mul = self.count_pool / self.M_IN_KM / self.duration
         return self.length_pool * right_mul
 
     def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
         coeff_1 = 1.1
         coeff_2 = 2
         return (self.get_mean_speed() + coeff_1) * coeff_2 * self.weight
 
     def show_training_info(self) -> InfoMessage:
+        """Вернуть информационное сообщение о выполненной тренировке."""
         return InfoMessage(
             'Swimming', self.duration, self.get_distance(),
             self.get_mean_speed(), self.get_spent_calories())
