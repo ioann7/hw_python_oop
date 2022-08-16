@@ -56,6 +56,9 @@ class Training:
         """Вернуть информационное сообщение о выполненной тренировке."""
         pass
 
+    def get_duration_in_minutes(self) -> float:
+        return self.duration * 60
+
 
 class Running(Training):
     """Тренировка: бег."""
@@ -63,8 +66,9 @@ class Running(Training):
     def get_spent_calories(self) -> float:
         coeff_1 = 18
         coeff_2 = 20
+        dur_in_min = self.get_duration_in_minutes()
         left_mul = (coeff_1 * self.get_mean_speed() - coeff_2)
-        right_mul = self.weight / self.M_IN_KM * self.duration
+        right_mul = self.weight / self.M_IN_KM * dur_in_min
         return left_mul * right_mul
 
     def show_training_info(self) -> InfoMessage:
@@ -84,9 +88,10 @@ class SportsWalking(Training):
     def get_spent_calories(self) -> float:
         coeff_1 = 0.035
         coeff_2 = 0.029
+        dur_in_min = self.get_duration_in_minutes()
         internal_mul = (self.get_mean_speed()**2 // self.height)
         external_mul = (coeff_1 * self.weight + internal_mul * coeff_2)
-        return external_mul * self.duration
+        return external_mul * dur_in_min
 
     def show_training_info(self) -> InfoMessage:
         return InfoMessage(
