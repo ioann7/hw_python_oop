@@ -7,10 +7,10 @@ class InfoMessage:
     def __init__(
             self,
             training_type: str,
-            duration: Union[int, float],
-            distance: Union[int, float],
-            speed: Union[int, float],
-            calories: Union[int, float]) -> None:
+            duration: float,
+            distance: float,
+            speed: float,
+            calories: float) -> None:
         self.training_type = training_type
         self.duration = duration
         self.distance = distance
@@ -18,11 +18,11 @@ class InfoMessage:
         self.calories = calories
 
     def get_message(self) -> str:
-        return (f'Тип тренировки: {self.training_type};'
-                f'Длительность: {self.duration} ч.;'
-                f'Дистанция: {self.distance} км;'
-                f'Ср. скорость: {self.speed} км/ч;'
-                f'Потрачено ккал: {self.calories}.')
+        return (f'Тип тренировки: {self.training_type}; '
+                f'Длительность: {self.duration:.3f} ч.; '
+                f'Дистанция: {self.distance:.3f} км; '
+                f'Ср. скорость: {self.speed:.3f} км/ч; '
+                f'Потрачено ккал: {self.calories:.3f}.')
 
 
 class Training:
@@ -36,9 +36,9 @@ class Training:
                  duration: float,
                  weight: float,
                  ) -> None:
-        self.action = action
-        self.duration = duration
-        self.weight = weight
+        self.action = int(action)
+        self.duration = float(duration)
+        self.weight = float(weight)
 
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
@@ -79,7 +79,7 @@ class SportsWalking(Training):
     def __init__(self, action: int, duration: float,
                  weight: float, height: float) -> None:
         super().__init__(action, duration, weight)
-        self.height = height
+        self.height = float(height)
 
     def get_spent_calories(self) -> float:
         coeff_1 = 0.035
@@ -102,8 +102,8 @@ class Swimming(Training):
     def __init__(self, action: int, duration: float, weight: float,
                  length_pool: float, count_pool: float) -> None:
         super().__init__(action, duration, weight)
-        self.length_pool = length_pool
-        self.count_pool = count_pool
+        self.length_pool = float(length_pool)
+        self.count_pool = float(count_pool)
 
     def get_mean_speed(self) -> float:
         right_mul = self.count_pool / self.M_IN_KM / self.duration
