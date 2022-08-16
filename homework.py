@@ -76,8 +76,7 @@ class Running(Training):
         coeff_2 = 20
         dur_in_min = self.get_duration_in_minutes()
         left_mul = (coeff_1 * self.get_mean_speed() - coeff_2)
-        right_mul = self.weight / self.M_IN_KM * dur_in_min
-        return round(left_mul * right_mul, 6)
+        return left_mul * self.weight / self.M_IN_KM * dur_in_min
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -101,7 +100,7 @@ class SportsWalking(Training):
         dur_in_min = self.get_duration_in_minutes()
         internal_mul = (self.get_mean_speed()**2 // self.height)
         external_mul = (coeff_1 * self.weight + internal_mul * coeff_2)
-        return round(external_mul * dur_in_min, 6)
+        return external_mul * dur_in_min
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
@@ -123,15 +122,14 @@ class Swimming(Training):
 
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
-        right_mul = self.count_pool / self.M_IN_KM / self.duration
-        return round(self.length_pool * right_mul, 6)
+        return self.length_pool * self.count_pool / self.M_IN_KM / self.duration
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         coeff_1 = 1.1
         coeff_2 = 2
         first_mul = (self.get_mean_speed() + coeff_1)
-        return round(first_mul * coeff_2 * self.weight, 6)
+        return first_mul * coeff_2 * self.weight
 
     def show_training_info(self) -> InfoMessage:
         """Вернуть информационное сообщение о выполненной тренировке."""
