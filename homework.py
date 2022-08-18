@@ -12,6 +12,7 @@ from dataclasses import dataclass, asdict
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
+
     training_type: str
     duration: float
     distance: float
@@ -73,9 +74,9 @@ class Running(Training):
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        coeff_1 = self.COEFF_CALLORIE_1
-        coeff_2 = self.COEFF_CALLORIE_2
-        return ((coeff_1 * self.get_mean_speed() - coeff_2)
+        return ((self.COEFF_CALLORIE_1
+                 * self.get_mean_speed()
+                 - self.COEFF_CALLORIE_2)
                 * self.weight
                 / self.M_IN_KM
                 * self.get_duration_in_minutes())
@@ -100,12 +101,10 @@ class SportsWalking(Training):
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        coeff_1 = self.COEFF_CALLORIE_1
-        coeff_2 = self.COEFF_CALLORIE_2
-        left_multiplier = (coeff_1
+        left_multiplier = (self.COEFF_CALLORIE_1
                            * self.weight
                            + (self.get_mean_speed()**2 // self.height)
-                           * coeff_2)
+                           * self.COEFF_CALLORIE_2)
         return left_multiplier * self.get_duration_in_minutes()
 
     def show_training_info(self) -> InfoMessage:
@@ -137,10 +136,8 @@ class Swimming(Training):
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
-        coeff_1 = self.COEFF_CALLORIE_1
-        coeff_2 = self.COEFF_CALLORIE_2
-        return ((self.get_mean_speed() + coeff_1)
-                * coeff_2
+        return ((self.get_mean_speed() + self.COEFF_CALLORIE_1)
+                * self.COEFF_CALLORIE_2
                 * self.weight)
 
     def show_training_info(self) -> InfoMessage:
